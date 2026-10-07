@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="BackgroundServiceSample.WebApi/BackgroundServiceSample.WebApi.csproj" />
+  <Project Path="BackgroundServiceSample.WebMinimalApi/BackgroundServiceSample.WebMinimalApi.csproj" />
+</Solution>
