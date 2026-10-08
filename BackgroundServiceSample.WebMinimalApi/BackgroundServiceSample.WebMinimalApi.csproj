@@ -14,4 +14,8 @@
     <ProjectReference Include="..\BackgroundServiceSample.WebApi\BackgroundServiceSample.WebApi.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
 </Project>

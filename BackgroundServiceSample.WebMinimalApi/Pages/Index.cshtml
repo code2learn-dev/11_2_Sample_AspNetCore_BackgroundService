@@ -1,0 +1,14 @@
+﻿@page
+@model BackgroundServiceSample.WebMinimalApi.Pages.IndexModel
+@{
+}
+<h6 class="alert alert-info">Exchange Rated</h6>
+@foreach (var item in Model.Currencies)
+{
+	<section class="card mb-4">
+		<section class="card-body">
+			<h4 class="card-title">@item.Name</h4>
+			<h4 class="alert alert-info">@($"{item.Rate:n0}")</h4>
+		</section>
+	</section>
+}

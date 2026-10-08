@@ -18,11 +18,27 @@ builder.Services.AddHttpClient<RateClientService>();
 builder.Services.AddSingleton<CacheService>();
 // adding IHostedService for creating jon that running in background
 // it's mean create background task with IHostedService 
-builder.Services.AddHostedService<RateHostedService>();
+//builder.Services.AddHostedService<RateHostedService>();
+
+
+// add Hosted Service for store exchange rates periodically in specified time period
+// in database with EF Core service 
+builder.Services.AddHostedService<RateEfCoreHostedService>();
+// using razor page service to display rates list
+builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
-app.MapGet("/", () => "Exchange Rates");
+app.UseDeveloperExceptionPage();
+app.UseStatusCodePages();
+
+// add static file middleware
+app.UseStaticFiles();
+
+// add razor page midlleware
+app.MapRazorPages();
+
+//app.MapGet("/", () => "Exchange Rates");
 
 // getting exchange rated list from cache in minimal API
 app.MapGet("/rates", async (
