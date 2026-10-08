@@ -1,8 +1,14 @@
 using BackgroundServiceSample.WebMinimalApi.Helpers;
+using BackgroundServiceSample.WebMinimalApi.Models;
 using BackgroundServiceSample.WebMinimalApi.RateServices;
+using Microsoft.EntityFrameworkCore;
 using System.Net.Mime;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// adding In-Memory EF Core
+builder.Services.AddDbContext<RateDbContext>(
+		options => options.UseInMemoryDatabase("rate_db"));
 
 // adding memory cache service for caching exchange rates
 builder.Services.AddMemoryCache();
