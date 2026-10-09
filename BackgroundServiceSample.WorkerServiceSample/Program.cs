@@ -1,6 +1,8 @@
+using BackgroundServiceSample.WorkerServiceSample.Jobs;
 using BackgroundServiceSample.WorkerServiceSample.Models;
 using BackgroundServiceSample.WorkerServiceSample.RateServices;
 using Microsoft.EntityFrameworkCore;
+using Quartz;
 
 /*
  * 
@@ -52,6 +54,44 @@ IHost host = Host.CreateDefaultBuilder(args)
 							{
 								options.UseInMemoryDatabase("rate_db");
 							});
+
+		// adding Quartz.Net service to configure Quartz.Net job factory
+		services.AddQuartz(q =>
+		{
+
+			// create job key
+			var jobKey = new JobKey("Update Rates");
+			// add the IJob to the DI container and associates it with job key
+			q.AddJob<ExchangeRatesJob>(cfg => cfg.WithIdentity(jobKey));
+
+			// add trigger and specify the job schedule
+			q.AddTrigger(options => options
+									.ForJob(jobKey)
+									// create unique identity key for trigger
+									.WithIdentity(jobKey + "_trigger")
+									// start jon immediatly
+									.StartNow()
+									// create simple schedule the job
+									//.WithSimpleSchedule(a => a
+									//						.WithInterval(TimeSpan.FromSeconds(20))
+									//						.RepeatForever()))
+									// create advance scheduling
+									// Quartz uses a 6 or 7-field format (Seconds, Minutes, Hours, Day-of-Month, Month, Day-of-Week, [Year]).
+									.WithSchedule(CronScheduleBuilder.Create(
+												 CronExpression.Parse("0 30 17 ? * FRI"))));
+
+			// enable clustering for running multiple instances of your apps ans
+			// make mpre scalelibily of your app but just one instance can run the job
+			//q.UsePersistentStore(a =>
+			//{
+			//	a.UseSqlServer("connection string");
+			//	a.UseClustering();
+			//});
+		});
+
+		// Adds the Quartz.NET IHostedService that runs the Quartz.NET scheduler
+		services.AddQuartzHostedService(
+			q => q.WaitForJobsToComplete = true);
 		
 	})
 	// install Microsoft.Extensions.Hosting.WindowsServices package 
