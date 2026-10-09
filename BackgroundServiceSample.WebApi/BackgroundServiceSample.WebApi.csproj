@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -9,5 +9,25 @@
   <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="10.3.0" />
   </ItemGroup>
+
+	<!--
+	when you publish any other project in solution in this solution
+	we wanna to publish the worker service project that it reference to
+	the web api project therefore when it published it cause conflict
+	about same files must publish in identical output publish forlder
+	for example multiple instances of appsetting.json has exist and therefor
+	in the command prompt window take we an error with the following message
+	Found multiple publish output files with the same relative path 
+	so we must prevent the same files which are supposed to copy to the
+	publish folder which the common files can cause this error is 
+	appsetting files that web must remove them from publish process
+	
+	so we must disable web api project same file 
+	-->
+	<!-- In BackgroundServiceSample.WebApi.csproj -->
+	<ItemGroup>
+		<Content Remove="appsettings.json" />
+		<Content Remove="appsettings.Development.json" />
+	</ItemGroup>
 
 </Project>

@@ -1,4 +1,5 @@
 <Solution>
   <Project Path="BackgroundServiceSample.WebApi/BackgroundServiceSample.WebApi.csproj" />
   <Project Path="BackgroundServiceSample.WebMinimalApi/BackgroundServiceSample.WebMinimalApi.csproj" />
+  <Project Path="BackgroundServiceSample.WorkerServiceSample/BackgroundServiceSample.WorkerServiceSample.csproj" Id="0944028c-dcf5-4846-91bc-9d704d02ad63" />
 </Solution>
